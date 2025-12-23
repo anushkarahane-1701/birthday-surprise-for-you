@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise 💗</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:"Comic Sans MS", cursive;
+  overflow:hidden;
+}
+
+.page{
+  display:none;
+  min-height:100vh;
+  padding:8vh 6vw;
+  box-sizing:border-box;
+  text-align:center;
+}
+
+.page.active{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+h1{
+  font-size:clamp(28px,6vw,44px);
+  color:#ff4f8b;
+}
+
+p{
+  font-size:clamp(18px,4.8vw,24px);
+  line-height:1.8;
+  color:#444;
+  max-width:900px;
+}
+
+button{
+  margin-top:30px;
+  padding:14px 34px;
+  font-size:clamp(16px,4vw,18px);
+  border:none;
+  border-radius:30px;
+  background:#ff7aa2;
+  color:white;
+  cursor:pointer;
+}
+
+/* pastel backgrounds */
+.page:nth-child(1){background:#ffe4ec;}
+.page:nth-child(2){background:#fff1e6;}
+.page:nth-child(3){background:#fdf2f8;}
+.page:nth-child(4){background:#e8f8f5;}
+.page:nth-child(5){background:#f0f4ff;}
+.page:nth-child(6){background:#fef6e4;}
+.page:nth-child(7){background:#fceef3;}
+.page:nth-child(8){background:#eef6ff;}
+.page:nth-child(9){background:#fff5f5;}
+.page:nth-child(10){background:#f4f9f9;}
+.page:nth-child(11){background:#fdf7ff;}
+.page:nth-child(12){background:#f2fbf7;}
+.page:nth-child(13){background:#fffaf0;}
+.page:nth-child(14){background:#f7f0ff;}
+.page:nth-child(15){background:#f0fff4;}
+.page:nth-child(16){background:#fff0f6;}
+.page:nth-child(17){background:#f8f9ff;}
+.page:nth-child(18){background:#fff1f8;}
+.page:nth-child(19){background:#fdf2f8;}
+
+/* cake stickers */
+.stickers{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0.2;
+  font-size:50px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-around;
+  align-content:space-around;
+}
+
+/* heart tree animation */
+.heart{
+  position:fixed;
+  font-size:22px;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  animation:grow 8s forwards;
+  opacity:0;
+}
+
+@keyframes grow{
+  0%{transform:translate(-50%,-50%) scale(0);opacity:0;}
+  100%{transform:translate(var(--x),var(--y)) scale(1);opacity:1;}
+}
+
+textarea{
+  width:90%;
+  max-width:800px;
+  height:180px;
+  border-radius:20px;
+  padding:15px;
+  font-size:16px;
+}
+</style>
+
+<script>
+let current=0;
+
+function showPage(n){
+  const pages=document.querySelectorAll(".page");
+  pages.forEach(p=>p.classList.remove("active"));
+  pages[n].classList.add("active");
+  current=n;
+}
+
+function nextPage(){
+  if(current<18) showPage(current+1);
+}
+
+/* heart tree */
+function createHeartTree(){
+  const positions=[
+    /* heart shape */
+    [-120,-80],[-60,-120],[0,-140],[60,-120],[120,-80],
+    [-140,-20],[-80,-10],[0,-20],[80,-10],[140,-20],
+    [-100,40],[-50,60],[0,70],[50,60],[100,40],
+    /* trunk */
+    [0,120],[0,150],[0,180]
+  ];
+
+  positions.forEach((pos,i)=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerText = i<15 ? ❤️" : "🤎";
+    h.style.setProperty("--x",pos[0]+"px");
+    h.style.setProperty("--y",pos[1]+"px");
+    h.style.animationDelay=(i*0.3)+"s";
+    document.body.appendChild(h);
+  });
+}
+
+window.onload=()=>{
+  showPage(0);
+  createHeartTree();
+}
+</script>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="page active">
+<h1>Are you ready for the surprise? 💕</h1>
+<p>Take a deep breath, look at the little hearts forming just for you, and get ready to smile.</p>
+<button onclick="nextPage()">Yes ➜</button>
+</div>
+
+<!-- 17 MESSAGE PAGES -->
+<script>
+const messages=[
+"Happy 17th birthday to someone who genuinely means so much to me, more than words ever manage to explain properly.",
+"Seventeen is such a beautiful age, and I hope this year treats you with kindness, confidence, and countless happy moments.",
+"I wanted to create something special for you today, something gentle and warm, just like the way you make me feel.",
+"Your presence alone has a way of making ordinary days feel calmer, brighter, and much more meaningful than before.",
+"I hope you always remember how valued you are, not only today, but on every single day of your life.",
+"You deserve happiness that feels peaceful, love that feels safe, and dreams that slowly come true.",
+"Watching you grow and become more yourself is something truly special, and I’m grateful to witness it.",
+"Your smile has the power to change moods, lighten hearts, and make moments unforgettable.",
+"I hope seventeen teaches you self-belief, patience, courage, and the beauty of trusting yourself.",
+"Life may not always be easy, but I hope you never forget how strong and capable you truly are.",
+"You bring warmth into my world in ways you might not even realize yet.",
+"May this birthday mark the beginning of a year filled with growth, laughter, and quiet happiness.",
+"I hope you chase what excites you, protect what matters to you, and never doubt your worth.",
+"This little surprise was made slowly and carefully, with a lot of thought and genuine affection.",
+"You are appreciated for who you are, not for what you do, and that will never change.",
+"I wish you calm mornings, joyful evenings, and a heart that feels full more often than not.",
+"Happy birthday once again, and thank you for simply being you."
+];
+
+messages.forEach((msg,i)=>{
+document.write(`
+<div class="page">
+<div class="stickers">🎂 🧁 🍰 🎂 🧁 🍰 🎂 🧁</div>
+<p>${msg}</p>
+<button onclick="nextPage()">Next ➜</button>
+</div>
+`);
+});
+</script>
+
+<!-- LAST PAGE -->
+<div class="page">
+<h1>Did you like this? 💗</h1>
+<p>
+<button>Yes</button> &nbsp; <button>No</button>
+</p>
+<p>
+Why? (Please write at least 50 words)<br><br>
+After writing, take a screenshot and send it to me.
+</p>
+<textarea placeholder="Write here..."></textarea>
+</div>
+
+</body>
+</html>
