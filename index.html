@@ -18,6 +18,7 @@ body{
   padding:8vh 6vw;
   box-sizing:border-box;
   text-align:center;
+  position:relative;
 }
 
 .page.active{
@@ -28,30 +29,42 @@ body{
 }
 
 h1{
-  font-size:clamp(28px,6vw,44px);
+  font-size:clamp(28px,6vw,46px);
   color:#ff4f8b;
+  z-index:10;
 }
 
 p{
-  font-size:clamp(18px,4.8vw,24px);
+  font-size:clamp(18px,4.5vw,24px);
   line-height:1.8;
   color:#444;
   max-width:900px;
+  z-index:10;
 }
 
 button{
-  margin-top:30px;
-  padding:14px 34px;
+  margin-top:28px;
+  padding:14px 36px;
   font-size:clamp(16px,4vw,18px);
   border:none;
   border-radius:30px;
-  background:#ff7aa2;
+  background:#ff8fb1;
   color:white;
   cursor:pointer;
 }
 
-/* pastel backgrounds */
-.page:nth-child(1){background:#ffe4ec;}
+textarea{
+  width:90%;
+  max-width:600px;
+  height:160px;
+  font-size:16px;
+  border-radius:14px;
+  padding:12px;
+  border:2px solid #ffb6c1;
+}
+
+/* Pastel backgrounds */
+.page:nth-child(1){background:#0b0b10;}
 .page:nth-child(2){background:#fff1e6;}
 .page:nth-child(3){background:#fdf2f8;}
 .page:nth-child(4){background:#e8f8f5;}
@@ -71,142 +84,133 @@ button{
 .page:nth-child(18){background:#fff1f8;}
 .page:nth-child(19){background:#fdf2f8;}
 
-/* cake stickers */
+/* Stickers */
 .stickers{
   position:absolute;
   inset:0;
   pointer-events:none;
-  opacity:0.2;
-  font-size:50px;
+  opacity:0.25;
+  font-size:48px;
   display:flex;
   flex-wrap:wrap;
   justify-content:space-around;
   align-content:space-around;
 }
 
-/* heart tree animation */
-.heart{
-  position:fixed;
-  font-size:22px;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  animation:grow 8s forwards;
-  opacity:0;
+/* Heart animation container only for first page */
+.page:first-child .heart-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0; /* behind text */
 }
 
-@keyframes grow{
-  0%{transform:translate(-50%,-50%) scale(0);opacity:0;}
-  100%{transform:translate(var(--x),var(--y)) scale(1);opacity:1;}
+.emoji {
+  position: absolute;
+  font-size: 22px;
+  opacity: 0;
+  animation: grow 0.9s ease forwards;
 }
 
-textarea{
-  width:90%;
-  max-width:800px;
-  height:180px;
-  border-radius:20px;
-  padding:15px;
-  font-size:16px;
+@keyframes grow {
+  from {
+    transform: translate(var(--sx), var(--sy)) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: translate(var(--x), var(--y)) scale(1);
+    opacity: 1;
+  }
 }
 </style>
-
-<script>
-let current=0;
-
-function showPage(n){
-  const pages=document.querySelectorAll(".page");
-  pages.forEach(p=>p.classList.remove("active"));
-  pages[n].classList.add("active");
-  current=n;
-}
-
-function nextPage(){
-  if(current<18) showPage(current+1);
-}
-
-/* heart tree */
-function createHeartTree(){
-  const positions=[
-    /* heart shape */
-    [-120,-80],[-60,-120],[0,-140],[60,-120],[120,-80],
-    [-140,-20],[-80,-10],[0,-20],[80,-10],[140,-20],
-    [-100,40],[-50,60],[0,70],[50,60],[100,40],
-    /* trunk */
-    [0,120],[0,150],[0,180]
-  ];
-
-  positions.forEach((pos,i)=>{
-    let h=document.createElement("div");
-    h.className="heart";
-    h.innerText = i<15 ? ❤️" : "🤎";
-    h.style.setProperty("--x",pos[0]+"px");
-    h.style.setProperty("--y",pos[1]+"px");
-    h.style.animationDelay=(i*0.3)+"s";
-    document.body.appendChild(h);
-  });
-}
-
-window.onload=()=>{
-  showPage(0);
-  createHeartTree();
-}
-</script>
 </head>
 
 <body>
 
 <!-- PAGE 1 -->
 <div class="page active">
-<h1>Are you ready for the surprise? 💕</h1>
-<p>Take a deep breath, look at the little hearts forming just for you, and get ready to smile.</p>
-<button onclick="nextPage()">Yes ➜</button>
+  <h1>Are you ready for the surprise? 💕</h1>
+  <p>Wait a few seconds and watch the hearts come together just for you.</p>
+  <button onclick="nextPage()">Yes ➜</button>
+  
+  <!-- Heart animation container -->
+  <div class="heart-container"></div>
 </div>
 
-<!-- 17 MESSAGE PAGES -->
-<script>
-const messages=[
-"Happy 17th birthday to someone who genuinely means so much to me, more than words ever manage to explain properly.",
-"Seventeen is such a beautiful age, and I hope this year treats you with kindness, confidence, and countless happy moments.",
-"I wanted to create something special for you today, something gentle and warm, just like the way you make me feel.",
-"Your presence alone has a way of making ordinary days feel calmer, brighter, and much more meaningful than before.",
-"I hope you always remember how valued you are, not only today, but on every single day of your life.",
-"You deserve happiness that feels peaceful, love that feels safe, and dreams that slowly come true.",
-"Watching you grow and become more yourself is something truly special, and I’m grateful to witness it.",
-"Your smile has the power to change moods, lighten hearts, and make moments unforgettable.",
-"I hope seventeen teaches you self-belief, patience, courage, and the beauty of trusting yourself.",
-"Life may not always be easy, but I hope you never forget how strong and capable you truly are.",
-"You bring warmth into my world in ways you might not even realize yet.",
-"May this birthday mark the beginning of a year filled with growth, laughter, and quiet happiness.",
-"I hope you chase what excites you, protect what matters to you, and never doubt your worth.",
-"This little surprise was made slowly and carefully, with a lot of thought and genuine affection.",
-"You are appreciated for who you are, not for what you do, and that will never change.",
-"I wish you calm mornings, joyful evenings, and a heart that feels full more often than not.",
-"Happy birthday once again, and thank you for simply being you."
-];
-
-messages.forEach((msg,i)=>{
-document.write(`
-<div class="page">
-<div class="stickers">🎂 🧁 🍰 🎂 🧁 🍰 🎂 🧁</div>
-<p>${msg}</p>
-<button onclick="nextPage()">Next ➜</button>
-</div>
-`);
-});
-</script>
+<!-- MESSAGE PAGES (17) -->
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>Happy 17th birthday to someone who makes days brighter, smiles easier, and moments feel softer just by existing.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>Seventeen feels special today because you’re stepping into another year of becoming even more wonderful.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>This little website was made with patience, excitement, and the hope that it makes you smile.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>I hope your birthday feels light, warm, playful, and filled with happiness you truly deserve.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>Every year you grow a little more amazing, even when you don’t realize it yourself.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>Your smile has a way of making things feel calmer and happier all at once.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>This birthday wish is wrapped with care, kindness, and many tiny happy thoughts.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>I hope seventeen surprises you with good days, proud moments, and gentle joy.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>Thank you for being exactly who you are without trying to be anything else.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>This page exists only to remind you that someone truly cared today.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>I hope this birthday stays in your memory as a soft and happy moment.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>Seventeen candles, seventeen wishes, and many reasons to smile today.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>This year is another chance to grow, laugh, and enjoy little victories.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>May this birthday quietly remind you how valued and appreciated you are.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>I hope today feels gentle, cheerful, and comfortably special.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>Another year older, another reason to celebrate everything you are becoming.</p><button onclick="nextPage()">Next ➜</button></div>
+<div class="page"><div class="stickers">🎂 🧁 🍰</div><p>Happy birthday once again, with playful love and warm wishes.</p><button onclick="nextPage()">Next ➜</button></div>
 
 <!-- LAST PAGE -->
 <div class="page">
 <h1>Did you like this? 💗</h1>
-<p>
 <button>Yes</button> &nbsp; <button>No</button>
-</p>
-<p>
-Why? (Please write at least 50 words)<br><br>
-After writing, take a screenshot and send it to me.
-</p>
+<p>Why? (Minimum 50 words)<br>Please write honestly, take a screenshot, and send it to me.</p>
 <textarea placeholder="Write here..."></textarea>
 </div>
+
+<script>
+let page = 0;
+
+function showPage(n){
+  const pages=document.querySelectorAll(".page");
+  pages.forEach(p=>p.classList.remove("active"));
+  pages[n].classList.add("active");
+  page=n;
+}
+
+function nextPage(){
+  if(page < 18) showPage(page + 1);
+}
+
+/* HEART SHAPE ONLY ON FIRST PAGE */
+function createHeartShape(){
+  const container = document.querySelector(".page:first-child .heart-container");
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight * 0.48;
+  let delay = 0;
+
+  for(let t = 0; t < Math.PI*2; t += 0.12){
+    for(let r = 0; r < 1; r += 0.15){
+      const x = 16 * Math.pow(Math.sin(t),3);
+      const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+
+      const e = document.createElement("div");
+      e.className = "emoji";
+      e.textContent = "❤️";
+      e.style.left = centerX + "px";
+      e.style.top = centerY + "px";
+      e.style.setProperty("--sx","0px");
+      e.style.setProperty("--sy","140px");
+      e.style.setProperty("--x", (x*10*r) + "px");
+      e.style.setProperty("--y", (-y*10*r) + "px");
+      e.style.animationDelay = delay + "s";
+      container.appendChild(e);
+      delay += 0.02;
+    }
+  }
+}
+
+window.onload = () => {
+  showPage(0);
+  createHeartShape();
+};
+</script>
 
 </body>
 </html>
